@@ -1,0 +1,39 @@
+<h1>Cadastrar tarefa</h1>
+
+<div class="well">
+  <form #formTarefa="ngForm"> <!--O # faz com que formTarefa fique disponivel localmente, sendo uma reresentação do formulario-->
+   <div class="form-group">
+      <label for="nome">Tarefa:</label>
+      <input type="text"
+             class="form-control"
+             id="nome"
+             name="nome"
+             [(ngModel)]="tarefa.nome" <!-- bind dos dois lados. faz um sincronismo perfeito do nome da tarefa -> view - componente -->
+             #nome="ngModel" <!-- ao adicioanr isso, automaticamente cria-se um erros, que conterá os erros dos mesmo, o qual essas possuem os nomes das validações, nesse caso, required e minlength-->
+             minlength="5"
+             required> 
+      <div *ngIf="nome.erros && (nome.dirty || nome.touched)" <!--quando é feita alguma alteração criação objeto dirty e touched-->
+           class="alert alert-danger">
+        <div [hidden]="!nome.erros.required"> <!-- operador hidden com atribuição para verificar se deve-se exibir tais mensagens de erro-->
+          Digite a tarefa.
+        </div>
+        <div [hidden]="!nome.erros.minlength">
+          A tarefa deve conter ao menos 5 caracteres.
+        </div>
+      </div>
+    </div>
+   <div class="form-group text-center">
+     <input type="submit"
+            class="btn btn-success"
+            (click)="cadastrar()" <!-- operador de eventos -> (). associar uma função ao operado, nesse caso fora usado o onclick, outro exemplo onchange que altera valores, bastaria colocar (change)="a função desejada"-->
+     value="Cadastrar"
+     [disabled]="!formTarefa.form.valid"> <!--o botton cadastrar fica desativo ate estar tudo correto-->>
+     <a [routerLink]="['/tarefas/listar']"
+        class="btn btn-default">
+       <span class="glyphicon glyphicon-chevron-left"
+             aria-hidden="true"></span> Voltar
+     </a>
+   </div>
+  </form>
+</div>
+
